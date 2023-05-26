@@ -1,0 +1,16 @@
+### Login
+POST {{ url }}/login
+Content-Type: application/json
+
+{
+  "username": {{ username }},
+  "password": {{ password }}
+}
+
+> {%
+  client.global.set("token", response.body.json.token)
+%}
+
+### Get me
+GET {{ url }}/@me
+Authorization: Bearer {{ token }}
