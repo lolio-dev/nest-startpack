@@ -1,9 +1,9 @@
-import { IsString, IsUUID } from 'class-validator';
+import { IsEmail, IsOptional, IsString, IsUUID } from 'class-validator';
+import { AuthProviders } from "../../../enums/AuthProviders.enum";
 
-export class UserDto {
-  @IsUUID()
+export interface UserDto {
   id: string;
-
-  @IsString()
-  password: string;
+  email: string;
+  username: string;
+  avatar: string;
 }

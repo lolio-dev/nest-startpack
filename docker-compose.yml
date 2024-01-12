@@ -1,0 +1,48 @@
+version: "1.0"
+
+services:
+  postgres:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: toto
+      POSTGRES_DB: object-engine
+    volumes:
+      - type: volume
+        source: db-data
+        target: /var/lib/mysql
+    ports:
+      - "5450:5432"
+  rabbitmq:
+    restart: always
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq_modelengine
+    ports:
+      - ${RABBIT_PORT}:5672
+      - 15672:15672
+    networks:
+      - rabbitmq_go_net
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBIT_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBIT_PASSWORD}
+  minio:
+    image: 'minio/minio:latest'
+    environment:
+      MINIO_ROOT_USER: minio
+      MINIO_ROOT_PASSWORD: password
+    ports:
+      - '9000:9000'
+      - '8900:8900'
+    volumes:
+      - 'minio:/data/minio'
+    command: 'minio server /data/minio --console-address ":8900"'
+    restart: always
+volumes:
+  db-data:
+  minio:
+    driver: local
+
+networks:
+  rabbitmq_go_net:
+    driver: bridge

@@ -1,0 +1,7 @@
+### Get files from user
+GET {{ url }}/files
+Authorization: Bearer {{ token }}
+
+### Get file url
+GET {{ url }}/files/355b7f70-54b1-44b4-b3d4-335043527b63
+Authorization: Bearer {{ token }}

@@ -1,0 +1,50 @@
+### Create config
+POST http://localhost:3001/objmc
+Content-Type: application/json
+Authorization: Bearer {{ token }}
+
+{
+  "config": {"scale": 1.0, "offset": [0.0, 0.0, 0.0], "duration": 0, "easing": 3, "interpolation": 1, "colorbehavior": ["pitch", "yaw", "roll"], "autorotate": 1, "autoplay": true, "flipuv": false, "noshadow": false, "nopow": true, "visibility": 7, "png_output": "block/out.png", "json_output": "potion.json"},
+  "textures": ["be86097e-6860-4481-bb99-e771468b30a2"],
+  "models": ["df57fd26-4271-4ca7-9d6d-5301d22d4bac"]
+}
+
+### Update Config
+PATCH http://localhost:3001/objmc/ca9b4118-7716-4aa2-afbd-20586f7fdb09
+Content-Type: application/json
+Authorization: Bearer {{ token }}
+
+{
+  "config": {
+    "options": {
+      "offset": {
+        "x": "10.0",
+        "y": "0.0",
+        "z": "0.0"
+      },
+      "scale": "1.0",
+      "noShadow": false,
+      "autoRotate": "yaw",
+      "flipuv": false,
+      "nopow": false,
+      "visibilty": 7
+    },
+    "animation": {
+      "duration": "0",
+      "positionEasing": "bezier",
+      "textureInterpolation": "linear",
+      "autoPlay": false,
+      "colorBehavior": {
+        "1": "pitch",
+        "2": "yaw",
+        "3": "roll"
+      }
+    },
+    "output": {
+      "json": "potion.json",
+      "png": "block/out.png"
+    }
+  },
+  "textures": [],
+  "models": []
+}

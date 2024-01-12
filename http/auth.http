@@ -1,16 +1,26 @@
-### Login
-POST {{ url }}/login
+### Register
+POST {{ url }}/auth/register
 Content-Type: application/json
 
 {
-  "username": {{ username }},
-  "password": {{ password }}
+  "username": "elie",
+  "password": "toto"
+}
+
+### Login
+POST {{ url }}/auth/login
+Content-Type: application/json
+
+{
+  "username": "{{ username }}",
+  "password": "{{ password }}"
 }
 
 > {%
-  client.global.set("token", response.body.json.token)
+client.global.set("token", response.body.access_token)
 %}
 
 ### Get me
-GET {{ url }}/@me
-Authorization: Bearer {{ token }}
+GET {{ url }}/auth/@me
+Authorization: Bearer {{ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxZGUxNzg2My1iNDY4LTRlZGQtYmNkYS1mNzkzMTY3ZWU2NjMiLCJpYXQiOjE3MDQwMjczOTUsImV4cCI6MTcwNDExMzc5NX0.qfat9qiTOuateRa3GbwpqlK6ryuZF-HRT-LsI0lB0Jo }}
+

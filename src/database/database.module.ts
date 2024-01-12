@@ -1,21 +1,28 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigService } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UserEntity } from '../resources/users/entities/user.entity';
+import { FileEntity } from "../resources/files/entities/file.entity";
+import { ObjmcEntity } from "../resources/objmc/entities/objmc.entity";
+import { ModelEntity } from "../resources/models/entities/model.entity";
 
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
-      useFactory: (configService: ConfigService) => ({
-        type: 'mariadb',
-        host: configService.get('DATABASE_HOST'),
-        port: configService.get('DATABASE_PORT'),
-        username: configService.get('DATABASE_USERNAME'),
-        password: configService.get('DATABASE_PASSWORD'),
-        database: configService.get('DATABASE_NAME'),
-        entities: [UserEntity],
-        synchronize: configService.get('NODE_ENV') === 'development',
-      }),
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => {
+        return ({
+          type: 'postgres',
+          host: configService.get<string>('DATABASE_HOST'),
+          port: configService.get<number>('DATABASE_PORT'),
+          username: configService.get<string>('DATABASE_USERNAME'),
+          password: configService.get<string>('DATABASE_PASSWORD'),
+          database: configService.get('DATABASE_NAME'),
+          entities: [UserEntity, FileEntity, ObjmcEntity, ModelEntity],
+          synchronize: configService.get<string>('NODE_ENV') === 'development',
+        });
+      },
     }),
   ],
 })
